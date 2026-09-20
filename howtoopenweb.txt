@@ -1,0 +1,7 @@
+I put this at the terminal:
+
+npm install
+node hash_passwords.js
+npm start
+
+Check if http://localhost:3000 is accessible.

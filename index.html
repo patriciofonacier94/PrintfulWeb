@@ -1,0 +1,860 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Printful | Where Ideas Collide</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript>
+        <link rel="stylesheet" href="assets/css/noscript.css" />
+    </noscript>
+</head>
+
+<body class="is-preload">
+
+    <header class="navbar">
+        <div class="auth-buttons">
+            <a href="#signup" class="btn-primary" id="btn-signup">Sign Up</a>
+            <a href="#login" class="btn-primary" id="btn-login">Log In</a>
+            <a href="#" class="btn-primary" id="btn-header-signout" style="display:none;">Sign Out</a>
+            <a href="#login" class="btn-outline" id="btn-dashboard" style="display:none;">Dashboard</a>
+        </div>
+    </header>
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <div class="logo">
+                <span class="fas fa-print"></span>
+            </div>
+            <div class="content">
+                <div class="inner">
+                    <h1>Printful</h1>
+                    <p style="margin-bottom: 0;">Where Print and Precision Collide: From banners to business cards, we
+                        use brilliant color, </p>
+                    <p style="margin-top: 0;">fine detail, and unrivaled quality to make your ideas come to life.</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+
+                    <li><a href="javascript:void(0)" onclick="openFloatingWindow('new_order')">Print Now!</a></li>
+                    <li><a href="#serve">Services</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+
+        <div id="floatingWindow" class="draggable-window">
+
+            <div id="windowHeader" class="window-header">
+                <span>🖨️ Print Order System</span>
+                <button onclick="toggleWindow()" class="close-btn">&times;</button>
+            </div>
+
+            <div class="window-content">
+                <article id="intro">
+                    <h2 class="major">Print Now!</h2>
+
+                    <form id="order-form" enctype="multipart/form-data">
+                        <div class="fields">
+
+                            <div class="field">
+                                <label for="take_in_date">Date Needed</label>
+                                <input type="date" name="take_in_date" id="take_in_date" required
+                                    onchange="checkAvailability()" class="date-input" style="color: black !important" />
+                            </div>
+
+                            <div class="field">
+                                <div id="availability-message" class="info-message">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="print_type">Select Print Job Type</label>
+                                <select name="print_type" id="print_type"
+                                    onchange="updateDescription(); updatePrice();">
+                                    <option value="default">-- Select an Option --</option>
+                                    <option value="laminate">Laminate</option>
+                                    <option value="sticker">Sticker</option>
+                                    <option value="tarpaulin">Tarpaulin</option>
+                                    <option value="tshirt">T-shirt Print</option>
+                                    <option value="bulk">Bulk Printing</option>
+                                    <option value="other">OTHER (Specify Below)</option>
+                                </select>
+                            </div>
+
+                            <div id="printDescription" class="description-box">
+                                Please select a print job type to see its description.
+                            </div>
+
+                            <div class="field half">
+                                <label for="quantity">Quantity</label>
+                                <input type="number" name="quantity" id="quantity" value="1" min="1"
+                                    onchange="updatePrice()" style="color: black !important" />
+                            </div>
+
+                            <div class="field half">
+                                <label for="print_file">Submit File to Print</label>
+                                <input type="file" name="print_file" id="print_file"
+                                    accept=".pdf,.jpg,.jpeg,.png,.doc,.ppt" required>
+                            </div>
+
+                            <div class="field" id="price-area">
+                                <label>Estimated Offer/Price</label>
+                                <div id="offer-text" class="price-display">
+                                    Select a Print Job Type and Quantity to see the estimated price.
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+                        <ul class="actions">
+                            <li><input type="submit" value="Submit Print Order" class="primary" /></li>
+                            <li><input type="reset" value="Clear Form" /></li>
+                        </ul>
+                        <div id="order-message" style="margin-top: 15px;"></div>
+                    </form>
+                </article>
+            </div>
+        </div>
+
+        <!-- Main -->
+        <div id="main">
+
+
+            <!-- signup parts -->
+
+            <article id="signup" class="panel">
+                <h2 class="major">Sign Up</h2>
+
+                <div id="signup-message" style="color: red; margin-bottom: 10px;"></div>
+
+                <form id="signup-form" method="post" action="#signup" autocomplete="off">
+                    <div class="fields">
+                        <div class="field">
+                            <label for="signup-name">Name</label>
+                            <input type="text" name="signup-name" id="signup-name" />
+                        </div>
+                        <div class="field">
+                            <label for="signup-email">Email</label>
+                            <input type="email" name="signup-email" id="signup-email" required />
+                        </div>
+                        <div class="field">
+                            <label for="signup-password">Password</label>
+                            <input type="password" name="signup-password" id="signup-password" required />
+                        </div>
+                        <div class="field">
+                            <label for="signup-confirm-password">Confirm Password</label>
+                            <input type="password" name="signup-confirm-password" id="signup-confirm-password"
+                                required />
+                        </div>
+                    </div>
+                    <ul class="actions">
+                        <li><input type="submit" value="Sign Up" class="primary" /></li>
+                        <li><input type="reset" value="Clear" /></li>
+                    </ul>
+                    <p>Already have an account? <a href="#login">Log In</a></p>
+                </form>
+            </article>
+
+
+
+
+            <!-- Login -->
+            <article id="login" class="panel">
+                <h2 class="major">Log In</h2>
+                <!-- Login message area -->
+                <div id="login-message" style="color: red; margin-bottom: 10px;"></div>
+
+                <form id="login-form" autocomplete="off">
+                    <div class="fields">
+                        <div class="field">
+                            <label for="login-email">Email</label>
+                            <input type="email" name="login-email" id="login-email" required />
+                        </div>
+                        <div class="field">
+                            <label for="login-password">Password</label>
+                            <input type="password" name="login-password" id="login-password" required />
+                        </div>
+                    </div>
+                    <ul class="actions">
+                        <li><input type="submit" value="Log In" class="primary" /></li>
+                        <li><input type="reset" value="Clear" /></li>
+                    </ul>
+                    <p><strong>Demo Accounts:</strong><br>
+                        Admin: admin@printful.com / admin123<br>
+                        User: user@example.com / user123</p>
+                </form>
+            </article>
+
+
+
+
+            <!-- Services -->
+            <article id="serve">
+                <style>
+                    /* Inline carousel styles for specific overrides */
+                    .carousel-wrapper {
+                        position: relative;
+                        max-width: 900px;
+                        /* Wider for 2 cols */
+                        margin: 0 auto;
+                        padding: 0 40px;
+                    }
+
+                    /* Container for the Two-Column Grid */
+                    .service-content-grid {
+                        display: flex;
+                        align-items: center;
+                        gap: 4.5rem;
+                        /* Increased gap to fit arrow */
+                        background: rgba(255, 255, 255, 0.05);
+                        /* Subtle card bg */
+                        padding: 20px;
+                        border-radius: 15px;
+                    }
+
+                    /* Image Column */
+                    .img-col {
+                        flex: 0 0 45%;
+                        width: 45%;
+                        position: relative;
+                    }
+
+                    .img-col img {
+                        width: 100%;
+                        display: block;
+                        border-radius: 10px;
+                        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+                        object-fit: cover;
+                        aspect-ratio: 4/3;
+                    }
+
+                    /* Text Column */
+                    .text-col {
+                        flex: 1;
+                        text-align: left;
+                    }
+
+                    .text-col h3 {
+                        font-size: 1.5rem;
+                        color: #fff;
+                        margin-bottom: 0.5rem;
+                        border-bottom: 2px solid #ff4b2b;
+                        /* Accent */
+                        display: inline-block;
+                        padding-bottom: 5px;
+                    }
+
+                    .text-col p {
+                        font-size: 1rem;
+                        line-height: 1.6;
+                        color: #ddd;
+                        margin-bottom: 0;
+                    }
+
+                    /* Navigation Arrows */
+                    .next-btn {
+                        cursor: pointer;
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 45px;
+                        height: 45px;
+                        background: rgba(255, 255, 255, 0.1);
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: #fff;
+                        font-size: 1.2rem;
+                        transition: 0.3s;
+                        z-index: 10;
+                        text-decoration: none;
+                        border: 1px solid rgba(255, 255, 255, 0.2);
+                    }
+
+                    .next-btn:hover {
+                        background: #ff4b2b;
+                        color: #fff;
+                        border-color: #ff4b2b;
+                    }
+
+                    /* Arrows positioned relative to WRAPPER but visually flanking image */
+
+
+                    .next-btn {
+                        left: 47%;
+                    }
+
+                    /* Roughly flanking image */
+
+                    /* Mobile Responsive (Stacking) */
+                    @media screen and (max-width: 768px) {
+                        .service-content-grid {
+                            flex-direction: column;
+                            text-align: center;
+                            gap: 2rem;
+                            /* Reset gap for mobile */
+                        }
+
+                        .img-col {
+                            flex: 1;
+                            width: 100%;
+                        }
+
+                        .text-col {
+                            text-align: center;
+                        }
+
+
+
+                        .next-btn {
+                            right: 10px;
+                            left: auto;
+                            top: 30%;
+                        }
+
+                        /* Fix width on mobile */
+                        .carousel-wrapper {
+                            padding: 0 10px;
+                        }
+
+                        .img-col img {
+                            aspect-ratio: auto;
+                        }
+                    }
+                </style>
+                <div style="text-align:center; margin-bottom:2rem;">
+                    <h2 class="major">Our Services</h2>
+                </div>
+
+                <div class="carousel-wrapper">
+
+                    <!-- Item 1 -->
+                    <div class="carousel-item fade">
+                        <div class="service-content-grid">
+                            <div class="img-col">
+                                <img src="images/hehe.jpg" alt="Merchandise" />
+                            </div>
+                            <div class="text-col">
+                                <h3>Custom Merchandise</h3>
+                                <p>Looking for branded swag? We print high-quality caps, mugs, bags, and more. Perfect
+                                    for corporate gifts, events, or personal collections.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="carousel-item fade">
+                        <div class="service-content-grid">
+                            <div class="img-col">
+                                <img src="images/hehe2.jpg" alt="Stickers" />
+                            </div>
+                            <div class="text-col">
+                                <h3>High-Quality Stickers</h3>
+                                <p>Vibrant, waterproof, and durable. Our sticker printing service is ideal for product
+                                    labels, laptop decals, and promotional giveaways.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="carousel-item fade">
+                        <div class="service-content-grid">
+                            <div class="img-col">
+                                <img src="images/hehe3.jpg" alt="T-Shirts" />
+                            </div>
+                            <div class="text-col">
+                                <h3>Apparel Printing</h3>
+                                <p>Wear your design! We offer professional t-shirt printing with crisp colors that last.
+                                    Great for teams, reunions, or your own fashion brand.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="carousel-item fade">
+                        <div class="service-content-grid">
+                            <div class="img-col">
+                                <img src="images/hehe4.jpg" alt="Lamination" />
+                            </div>
+                            <div class="text-col">
+                                <h3>Professional Lamination</h3>
+                                <p>Preserve your important documents and photos. Our lamination service adds a sleek,
+                                    protective layer to keep your prints looking new.</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <a class="next-btn" onclick="plusSlides(1)">&#10095;</a>
+                </div>
+
+            </article>
+
+
+
+
+            <!-- About -->
+            <article id="about">
+                <style>
+                    /* About Section Styles */
+                    .about-grid {
+                        display: flex;
+                        gap: 3rem;
+                        align-items: center;
+                    }
+
+                    .about-text {
+                        flex: 1;
+                        text-align: left;
+                    }
+
+                    .about-text p {
+                        margin-bottom: 1.5rem;
+                        font-size: 1rem;
+                        line-height: 1.8;
+                    }
+
+                    .about-image {
+                        flex: 0 0 40%;
+                        max-width: 400px;
+                    }
+
+                    .about-image img {
+                        width: 100%;
+                        border-radius: 10px;
+                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                        transform: rotate(2deg);
+                        /* Stylish tilt */
+                        transition: transform 0.3s;
+                    }
+
+                    .about-image img:hover {
+                        transform: rotate(0deg) scale(1.02);
+                    }
+
+                    @media screen and (max-width: 768px) {
+                        .about-grid {
+                            flex-direction: column-reverse;
+                        }
+
+                        /* Image on top? Or Text on top. Let's do Image Top */
+                        .about-grid {
+                            flex-direction: column;
+                        }
+
+                        .about-image {
+                            flex: 1;
+                            width: 100%;
+                            max-width: 100%;
+                            margin-bottom: 20px;
+                        }
+
+                        .about-image img {
+                            transform: none;
+                        }
+                    }
+                </style>
+                <h2 class="major">About Us</h2>
+
+                <div class="about-grid">
+                    <div class="about-text">
+                        <p>We're more than just a printing shop — we're your partners in bringing ideas to life. From
+                            business cards and brochures to banners and custom merchandise, we take pride in turning
+                            every design into something real, vibrant, and professional.</p>
+                        <p>Our journey started with a simple goal: to make high-quality printing accessible to everyone.
+                            Whether you're a small business owner, a student, or an artist, we believe that every print
+                            tells a story — and we're here to help you tell yours.</p>
+                        <p>At Printful, we combine modern printing technology with genuine care for detail. Every order
+                            we handle is treated like our own, ensuring crisp colors, clean lines, and that "wow" factor
+                            you're looking for.</p>
+                        <p>So whether you need to promote, personalize, or just print something amazing, we've got you
+                            covered. Because here at Printful — your ideas deserve to be seen.</p>
+                    </div>
+                    <div class="about-image">
+                        <span class="image main" style="margin:0;"><img src="images/pic03.png" alt="About Printful"
+                                style="margin:0;" /></span>
+
+                        <div
+                            style="margin-top: 20px; font-size: 0.9em; text-align: left; opacity: 0.8; line-height: 1.6;">
+                            <h4 style="margin-bottom: 10px; border-bottom: 2px solid #ff4b2b; display: inline-block;">
+                                GROUP 1</h4>
+                            <ul style="list-style: none; padding-left: 0; margin-bottom: 20px;">
+                                <li>Adarle, Louie John</li>
+                                <li>Delacruz, Patricio</li>
+                                <li>Razonable, Roberto</li>
+                                <li>Jacala, Justin Aron</li>
+                                <li>Entona, Althea Yesha</li>
+                                <li>Datiles, Shanley Faye</li>
+                            </ul>
+
+                            <h4 style="margin-bottom: 10px; border-bottom: 2px solid #ff4b2b; display: inline-block;">
+                                Credits</h4>
+                            <p style="margin-bottom: 5px;">Dimension by HTML5 UP</p>
+                            <p><a href="https://html5up.net" target="_blank" style="border-bottom:none;">html5up.net</a>
+                                | <a href="https://twitter.com/ajlkn" target="_blank"
+                                    style="border-bottom:none;">@ajlkn</a></p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Contact-->
+            <article id="contact">
+                <h2 class="major">Contact Us</h2>
+
+                <div class="contact-grid">
+
+                    <div class="contact-form-area">
+                        <h3>Send Us a Message</h3>
+                        <form id="contact-form">
+                            <div class="fields">
+                                <div class="field half">
+                                    <label for="name">Name</label>
+                                    <input type="text" name="name" id="name" placeholder="Full Name" required />
+                                </div>
+                                <div class="field half">
+                                    <label for="email">Email</label>
+                                    <input type="email" name="email" id="email" placeholder="email@example.com"
+                                        required />
+                                </div>
+                                <div class="field">
+                                    <label for="message">Message</label>
+                                    <textarea name="message" id="message" rows="6" placeholder="Your message..."
+                                        required></textarea>
+                                </div>
+                            </div>
+                            <ul class="actions">
+                                <li><input type="submit" value="Send Message" class="primary" /></li>
+                                <li><input type="reset" value="Clear" /></li>
+                            </ul>
+                            <div id="contact-message" style="margin-top: 15px;"></div>
+                        </form>
+                    </div>
+
+                    <div class="contact-info-area">
+                        <h3>Our Location</h3>
+                        <p>Visit us at our office:</p>
+                        <address>
+                            Brgy. Gavino Maderan<br>
+                            General Mariano Alvarez, Cavite<br>
+                            Philippines
+                        </address>
+                        <p style="margin-top: 1.5rem;">You can also reach us:</p>
+                        <ul class="contact-details">
+                            <li><strong>Phone:</strong> <a href="tel:+631234567890">+63 123 456 7890</a></li>
+                            <li><strong>Email:</strong> <a href="mailto:admin@printful.com">admin@printful.com</a></li>
+                        </ul>
+
+                        <div class="map-container">
+                            <iframe class="position-relative rounded w-100 h-100"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15421.371900010955!2d120.66986689999999!3d15.035987300000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33965377f5255c2d%3A0xc3d291557345b597!2sSan%20Fernando%2C%20Pampanga!5e0!3m2!1sen!2sph!4v1701327641249!5m2!1sen!2sph"
+                                frameborder="0" style="min-height: 250px; border:0; margin-top: 1rem;"
+                                allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                        </div>
+                    </div>
+
+                </div>
+
+                <ul class="icons">
+                    <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                    <li><a href="https://www.facebook.com/johnbrix.benitua" class="icon brands fa-facebook-f"><span
+                                class="label">Facebook</span></a></li>
+                    <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                    <li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+                </ul>
+            </article>
+
+
+            <!-- Elements -->
+            <article id="elements">
+                <h2 class="major">Elements</h2>
+
+                <section>
+                    <h3 class="major">Text</h3>
+                    <p>This is <b>bold</b> and this is <strong>strong</strong>. This is <i>italic</i> and this is
+                        <em>emphasized</em>.
+                        This is <sup>superscript</sup> text and this is <sub>subscript</sub> text.
+                        This is <u>underlined</u> and this is code: <code>for (;;) { ... }</code>. Finally, <a
+                            href="#">this
+                            is a link</a>.
+                    </p>
+                    <hr />
+                    <h2>Heading Level 2</h2>
+                    <h3>Heading Level 3</h3>
+                    <h4>Heading Level 4</h4>
+                    <h5>Heading Level 5</h5>
+                    <h6>Heading Level 6</h6>
+                    <hr />
+                    <h4>Blockquote</h4>
+                    <blockquote>isPlaceholder.</blockquote>
+                    <h4>Preformatted</h4>
+                    <pre><code>i = 0;
+
+while (!deck.isInOrder()) {
+    print 'Iteration ' + i;
+    deck.shuffle();
+    i++;
+}
+
+print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
+                </section>
+
+                <section>
+                    <h3 class="major">Lists</h3>
+
+                    <h4>Unordered</h4>
+                    <ul>
+                        <li>Dolor pulvinar etiam.</li>
+                        <li>Sagittis adipiscing.</li>
+                        <li>Felis enim feugiat.</li>
+                    </ul>
+
+                    <h4>Alternate</h4>
+                    <ul class="alt">
+                        <li>Dolor pulvinar etiam.</li>
+                        <li>Sagittis adipiscing.</li>
+                        <li>Felis enim feugiat.</li>
+                    </ul>
+
+                    <h4>Ordered</h4>
+                    <ol>
+                        <li>Dolor pulvinar etiam.</li>
+                        <li>Etiam vel felis viverra.</li>
+                        <li>Felis enim feugiat.</li>
+                        <li>Dolor pulvinar etiam.</li>
+                        <li>Etiam vel felis lorem.</li>
+                        <li>Felis enim et feugiat.</li>
+                    </ol>
+                    <h4>Icons</h4>
+                    <ul class="icons">
+                        <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                        <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a>
+                        </li>
+                        <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a>
+                        </li>
+                        <li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+                    </ul>
+
+                    <h4>Actions</h4>
+                    <ul class="actions">
+                        <li><a href="#" class="button primary">Default</a></li>
+                        <li><a href="#" class="button">Default</a></li>
+                    </ul>
+                    <ul class="actions stacked">
+                        <li><a href="#" class="button primary">Default</a></li>
+                        <li><a href="#" class="button">Default</a></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3 class="major">Table</h3>
+                    <h4>Default</h4>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Item One</td>
+                                    <td>Ante turpis integer aliquet porttitor.</td>
+                                    <td>29.99</td>
+                                </tr>
+                                <tr>
+                                    <td>Item Two</td>
+                                    <td>Vis ac commodo adipiscing arcu aliquet.</td>
+                                    <td>19.99</td>
+                                </tr>
+                                <tr>
+                                    <td>Item Three</td>
+                                    <td> Morbi faucibus arcu accumsan lorem.</td>
+                                    <td>29.99</td>
+                                </tr>
+                                <tr>
+                                    <td>Item Four</td>
+                                    <td>Vitae integer tempus condimentum.</td>
+                                    <td>19.99</td>
+                                </tr>
+                                <tr>
+                                    <td>Item Five</td>
+                                    <td>Ante turpis integer aliquet porttitor.</td>
+                                    <td>29.99</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>100.00</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <h4>Alternate</h4>
+                    <div class="table-wrapper">
+                        <table class="alt">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Item One</td>
+                                    <td>Ante turpis integer aliquet porttitor.</td>
+                                    <td>29.99</td>
+                                </tr>
+                                <tr>
+                                    <td>Item Two</td>
+                                    <td>Vis ac commodo adipiscing arcu aliquet.</td>
+                                    <td>19.99</td>
+                                </tr>
+                                <tr>
+                                    <td>Item Three</td>
+                                    <td> Morbi faucibus arcu accumsan lorem.</td>
+                                    <td>29.99</td>
+                                </tr>
+                                <tr>
+                                    <td>Item Four</td>
+                                    <td>Vitae integer tempus condimentum.</td>
+                                    <td>19.99</td>
+                                </tr>
+                                <tr>
+                                    <td>Item Five</td>
+                                    <td>Ante turpis integer aliquet porttitor.</td>
+                                    <td>29.99</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>100.00</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </section>
+
+                <section>
+                    <h3 class="major">Buttons</h3>
+                    <ul class="actions">
+                        <li><a href="#" class="button primary">Primary</a></li>
+                        <li><a href="#" class="button">Default</a></li>
+                    </ul>
+                    <ul class="actions">
+                        <li><a href="#" class="button">Default</a></li>
+                        <li><a href="#" class="button small">Small</a></li>
+                    </ul>
+                    <ul class="actions">
+                        <li><a href="#" class="button primary icon solid fa-download">Icon</a></li>
+                        <li><a href="#" class="button icon solid fa-download">Icon</a></li>
+                    </ul>
+                    <ul class="actions">
+                        <li><span class="button primary disabled">Disabled</span></li>
+                        <li><span class="button disabled">Disabled</span></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3 class="major">Form</h3>
+                    <form method="post" action="#">
+                        <div class="fields">
+                            <div class="field half">
+                                <label for="demo-name">Name</label>
+                                <input type="text" name="demo-name" id="demo-name" value="" placeholder="Jane Doe" />
+                            </div>
+                            <div class="field half">
+                                <label for="demo-email">Email</label>
+                                <input type="email" name="demo-email" id="demo-email" value=""
+                                    placeholder="jane@untitled.tld" />
+                            </div>
+                            <div class="field">
+                                <label for="demo-category">Category</label>
+                                <select name="demo-category" id="demo-category">
+                                    <option value="">-</option>
+                                    <option value="1">Manufacturing</option>
+                                    <option value="1">Shipping</option>
+                                    <option value="1">Administration</option>
+                                    <option value="1">Human Resources</option>
+                                </select>
+                            </div>
+                            <div class="field half">
+                                <input type="radio" id="demo-priority-low" name="demo-priority" checked>
+                                <label for="demo-priority-low">Low</label>
+                            </div>
+                            <div class="field half">
+                                <input type="radio" id="demo-priority-high" name="demo-priority">
+                                <label for="demo-priority-high">High</label>
+                            </div>
+                            <div class="field half">
+                                <input type="checkbox" id="demo-copy" name="demo-copy">
+                                <label for="demo-copy">Email me a copy</label>
+                            </div>
+                            <div class="field half">
+                                <input type="checkbox" id="demo-human" name="demo-human" checked>
+                                <label for="demo-human">Not a robot</label>
+                            </div>
+                            <div class="field">
+                                <label for="demo-message">Message</label>
+                                <textarea name="demo-message" id="demo-message" placeholder="Enter your message"
+                                    rows="6"></textarea>
+                            </div>
+                        </div>
+                        <ul class="actions">
+                            <li><input type="submit" value="Send Message" class="primary" /></li>
+                            <li><input type="reset" value="Reset" /></li>
+                        </ul>
+                    </form>
+                </section>
+
+            </article>
+
+        </div>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <p class="copyright">&copy; Printful.</p>
+            <div class="wewe"><img src="images/logo.png" alt="Printful Logo"></div>
+        </footer>
+
+    </div>
+
+    <!-- Background elements -->
+    <div id="bg"></div>
+    <div id="bg1"></div>
+    <div id="bg2"></div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <!-- API Service -->
+    <script src="assets/js/api.js"></script>
+
+    <!-- Main Application Logic -->
+    <script src="assets/js/script.js"></script>
+
+</body>
+
+</html>

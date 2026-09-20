@@ -1,0 +1,136 @@
+<?php
+$db_host='localhost';
+$db_username='root';  //default for xampp
+$db_pass='';
+$db_name='celestia';  // name of database
+
+
+$conn= new mysqli($db_host, $db_username, $db_pass, $db_name);   //connect
+$user_name='';  //initialization
+
+
+if ($conn->connect_error)   //check connection
+{
+    die("Connection failed: " . $conn->connect_error);
+}
+
+
+// S I G N  U P
+if (isset($_POST['signup-name'])&&$_SERVER['REQUEST_METHOD'] == 'POST')
+{
+    $name = $_POST['signup-name'];
+    $email = $_POST['signup-email'];
+    $pass = $_POST['signup-password'];
+    $pass2 = $_POST['signup-confirm-password'];
+    if ($pass != $pass2)      // check if password and confirm password are the same
+    {
+        echo "Passwords do not match";
+    }
+    else
+    {
+        $check_sql = "SELECT id FROM guest_table WHERE email_address = ?";
+        $check_stmt = $conn->prepare($check_sql);
+        $check_stmt->bind_param("s", $email);
+        $check_stmt->execute();
+        $check_result = $check_stmt->get_result();
+
+
+        if ($check_result->num_rows > 0)
+        {
+            echo "This email is already registered.";
+        }
+        else
+        {
+            $hashed_password = password_hash($pass, PASSWORD_DEFAULT);     //hashed for security
+            $sql = "INSERT INTO guest_table (full_name, email_address, password) VALUES (?,?,?)";  //insert data to database
+            $stmt = $conn->prepare($sql);                                       // create prepare statement
+            $stmt->bind_param("sss", $name, $email, $hashed_password);       //bind parameters (string)
+               if ($stmt->execute())
+               {
+                echo "Account created";
+                $_SESSION['user_id'] = $stmt->insert_id;
+                $_SESSION['user_name'] = $name;
+                header("Location: index.php");
+                exit();
+               }
+        }
+    }
+}
+
+
+// L O G  I N
+if (isset($_POST['login-email'])&&$_SERVER['REQUEST_METHOD'] == 'POST')
+{
+    $email = $_POST['login-email'];
+    $password = $_POST['login-password'];
+
+
+    $sql = "SELECT * FROM guest_table WHERE email_address = ?";   //search from database
+    $stmt = $conn->prepare($sql);                                 // create prepare statement
+    $stmt->bind_param("s", $email);                               //bind email
+    $stmt->execute();                                             // execute
+    $result = $stmt->get_result();                                //get result
+    if ($result->num_rows===1)                                    // check if only one email exist
+    {
+        $user=$result->fetch_assoc();                             // get user data (row)
+        if (password_verify($password, $user['password']))        // verify password
+        {
+            session_start();
+            $_SESSION['user_id']=$user['id'];
+            $_SESSION['user_name']=$user['full_name'];
+            echo $_SESSION['user_name'];
+            $user_name = $_SESSION['user_name'];                 // store session yata
+            header("Location: index.php");                       // go to home
+            exit();
+        }
+        else
+        {
+            echo "Incorrect password";
+        }
+    }
+}
+
+
+// B O O K  N O W
+if (isset($_POST['check_in'])&&$_SERVER['REQUEST_METHOD'] == 'POST')
+{
+    session_start();
+    if (!isset($_SESSION['user_id']))                             // if no user id pa
+    {
+        header("Location: index.php#login");                      // redirect to login if not logged in
+        exit();
+   }
+
+
+    $guest_id = $_SESSION['user_id'];
+    $checkin = $_POST['check_in'];
+    $checkout = $_POST['check_out'];
+    $adult = $_POST['adults'];
+    $children = $_POST['children'];
+    $roomtype = $_POST['room_type'];
+    $request = $_POST['special_requests'];
+
+
+    $sql = "INSERT INTO booking_table (guest_id, checkin_date, checkout_date, num_adults, num_children, room_type, special_request) VALUES (?,?,?,?,?,?,?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("issiiss", $guest_id, $checkin, $checkout, $adult, $children, $roomtype, $request);
+    $stmt->execute();
+}
+
+
+// C O N T A C T  U S
+if (isset($_POST['name'])&&$_SERVER['REQUEST_METHOD'] == 'POST')
+{
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $message = $_POST['message'];
+
+
+    $sql = "INSERT INTO contact_us_table (name, email, message) VALUES (?,?,?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sss", $name, $email, $message);
+    $stmt->execute();
+}
+?>
+
+
