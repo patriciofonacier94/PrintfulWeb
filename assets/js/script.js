@@ -1556,9 +1556,9 @@ function initLogin() {
 }
 function initBackgroundSlideshow() {
     const images = [
-        'images/bg.jpg',
-        'images/bg1.jpg',
-        'images/bg2.jpg'
+        '/assets/images/bg.jpg',
+        '/assets/images/bg1.jpg',
+        '/assets/images/bg2.jpg'
     ];
     const layers = [
         document.getElementById('bg'),
